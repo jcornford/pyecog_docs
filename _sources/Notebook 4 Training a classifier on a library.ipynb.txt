@@ -1,0 +1,98 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Notebook 4 Training a classifier on a library\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Loading the pyecog module\n",
+    "\n",
+    "The easiest place to place and run this notebook is from the pyecog directory downloaded from github, e.g. \"pyecog-Development\" as the pyecog module will be found in this folder. However, if you want to run the notebook from else where on your computer you first need to make sure that python can find the pyecog module using sys.path.append(). To do this modify and copy the following code into a cell and run it (shift+enter).\n",
+    "\n",
+    "```python\n",
+    "import sys\n",
+    "pyecog_path = 'home/jonathan/git_repos/pyecog' # replace this with the pyecog location\n",
+    "sys.path.append(pyecog_path)\n",
+    "```\n",
+    "\n",
+    "If you are on windows you have to deal with the problem that backslashes in your paths are treated escape characters by python. Prefixing the string with 'r' prevents this. \n",
+    "\n",
+    "```python\n",
+    "pyecog_path_windows = r'home\\jonathan\\git_repos\\pyecog' # replace this with the pyecog location\n",
+    "\n",
+    "```"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import sys\n",
+    "import os"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# if you are in the directory downloaded from github you do not have to run this cell \n",
+    "\n",
+    "pyecog_path = '/home/jonathan/git_repos/pyecog' # replace this with the Pyecog-Master location\n",
+    "sys.path.append(pyecog_path)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "<module 'pyecog' from '/home/jonathan/git_repos/pyecog/pyecog/__init__.py'>"
+      ]
+     },
+     "execution_count": 3,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "import pyecog as pg\n",
+    "\n",
+    "pg # check the module is imported from where you expect"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.5.4"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
