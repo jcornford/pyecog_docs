@@ -30,9 +30,9 @@ Example Jupyter notebooks for classification workflow
 
    Notebook 1 Loading and converting Ndf files to h5 files.ipynb
    Notebook 2 Adding features to h5 files.ipynb
-   Notebook 3 Making a library.ipynb
+   Notebook 3 Making a library and train classifier.ipynb
    Notebook 4 Training a classifier on a library.ipynb
-   Notebook 5 Applying classifier to h5 files.ipynb
+   Notebook 4 Applying classifier to h5 files.ipynb
 
 Example Jupyter notebooks for more general analysis
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
