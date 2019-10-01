@@ -1,0 +1,634 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Notebook 4 Applying a classifier to a folder of h5 files &mdash; pyecog_docs 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Notebook Description" href="Analysis Notebook 1 Comparing predictions and annotations.html" />
+    <link rel="prev" title="Notebook 3 Training a classifier" href="Notebook 3 Training a classifier from a library.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pyecog_docs
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Site Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Installation.html">How to install Pyecog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="How to use the GUI.html">How to use the gui</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="Python notebooks.html">Pyecog as a python module</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Python notebooks.html#jupyter-notebook-crash-course">Jupyter Notebook crash-course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Python notebooks.html#loading-the-pyecog-module">Loading the pyecog module</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="Python notebooks.html#example-jupyter-notebooks-for-classification-workflow">Example Jupyter notebooks for classification workflow</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="Notebook 1 Loading and converting Ndf files to hdf5 files.html">Notebook 1 Loading and converting Ndf files to hdf5 files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Notebook 2 Making a library.html">Notebook 2 Making a library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Notebook 3 Training a classifier from a library.html">Notebook 3 Training a classifier</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Notebook 4 Applying a classifier to a folder of h5 files</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Loading-the-pyecog-module">Loading the pyecog module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Set-up-path-variables:">Set up path variables:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Python notebooks.html#example-jupyter-notebooks-for-more-general-analysis">Example Jupyter notebooks for more general analysis</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyecog_docs</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="Python notebooks.html">Pyecog as a python module</a> &raquo;</li>
+        
+      <li>Notebook 4 Applying a classifier to a folder of h5 files</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/Notebook 4 Applying a classifier to a folder of h5 files.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #303F9F;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #D84315;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 8ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="Notebook-4-Applying-a-classifier-to-a-folder-of-h5-files">
+<h1>Notebook 4 Applying a classifier to a folder of h5 files<a class="headerlink" href="#Notebook-4-Applying-a-classifier-to-a-folder-of-h5-files" title="Permalink to this headline">¶</a></h1>
+<p>In this notebook we go through using a trained classifier to detect
+activity on new data.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="Loading-the-pyecog-module">
+<h2>Loading the pyecog module<a class="headerlink" href="#Loading-the-pyecog-module" title="Permalink to this headline">¶</a></h2>
+<p>The easiest place in which to download and run this notebook is the
+pyecog directory downloaded from github, e.g. “pyecog-Development” as
+the pyecog module will be found in this folder. However, if you want to
+run the notebook from elsewhere on your computer you first need to make
+sure that python can find the pyecog module using sys.path.append(). To
+do this modify and copy the following code into a cell and run it
+(shift+enter).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pyecog_path</span> <span class="o">=</span> <span class="s1">&#39;/home/jonathan/git_repos/pyecog&#39;</span> <span class="c1"># replace this with the pyecog&#39;s location on your computer</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pyecog_path</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you are on windows you have to deal with the problem that backslashes
+in your paths (when you copy them) are treated escape characters by
+python. Prefixing the string with ‘r’ prevents this, as python creates a
+“raw” string literal in which &nbsp;are treated as literal characters, not
+escape characters.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pyecog_path</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;C:\home\jonathan\git_repos\pyecog&#39;</span>  <span class="c1"># replace this with the pyecog&#39;s location on your computer</span>
+</pre></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># note if you are in the directory downloaded from github you do not have to run this cell</span>
+<span class="c1">#pyecog_path = r&#39;C:\Users\Eleonora Lugara\Desktop\pyecog-Development&#39;</span>
+<span class="n">pyecog_path</span> <span class="o">=</span> <span class="s1">&#39;/home/jonathan/git_repos/pyecog&#39;</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pyecog_path</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pyecog</span> <span class="k">as</span> <span class="nn">pg</span>
+<span class="n">pg</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[3]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;module &#39;pyecog&#39; from &#39;/home/jonathan/git_repos/pyecog/pyecog/__init__.py&#39;&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="Warnings-and-errors!">
+<h3>Warnings and errors!<a class="headerlink" href="#Warnings-and-errors!" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li>If you have an error message like:</li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ne">ImportError</span><span class="p">:</span> <span class="n">No</span> <span class="n">module</span> <span class="n">named</span> <span class="s1">&#39;pyecog&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">This</span> <span class="n">probably</span> <span class="n">means</span> <span class="n">you</span> <span class="n">haven</span><span class="s1">&#39;t set he &quot;pyecog_path&quot; variable correctly</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>If you have a different warning or error. Check you have activated
+your pyecog environment before running jupyter notebook. On a windows
+machine, in anaconda prompt:</li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="n">activate</span> <span class="n">pyecog_env</span> <span class="c1"># &quot;source activate pyecog&quot; for mac or linux</span>
+<span class="o">&gt;&gt;</span> <span class="n">jupyter</span> <span class="n">notebook</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Set-up-path-variables:">
+<h2>Set up path variables:<a class="headerlink" href="#Set-up-path-variables:" title="Permalink to this headline">¶</a></h2>
+<p>We just need to tell python where to find the classifier and which
+directory to apply in.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">clf_filepath</span>   <span class="o">=</span> <span class="s1">&#39;/media/jonathan/DATA/seizure_data/tawfeeq/clf_tawfeeq_library_pandasversion_19_2.p&#39;</span>
+<span class="n">h5_folderpath</span>  <span class="o">=</span> <span class="s1">&#39;/media/jonathan/My Passport-ELE -EEG/2019/analysis pyecog/01_baselineconverted_01&#39;</span>
+
+<span class="c1"># this is the scond load 2019/09/20</span>
+<span class="n">h5_folderpath</span>  <span class="o">=</span> <span class="s1">&#39;/media/jonathan/My Passport-ELE -EEG/2019/analysis pyecog/01_baselineconverted_02&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># load the classifier</span>
+<span class="n">clf</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">classifier</span><span class="o">.</span><span class="n">load_classifier</span><span class="p">(</span><span class="n">clf_filepath</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="stderr output_area docutils container">
+<div class="highlight"><pre>
+/home/jonathan/anaconda3/envs/pyecog_env/lib/python3.5/site-packages/sklearn/base.py:311: UserWarning: Trying to unpickle estimator DecisionTreeClassifier from version 0.18.1 when using version 0.19.1. This might lead to breaking code or invalid results. Use at your own risk.
+  UserWarning)
+/home/jonathan/anaconda3/envs/pyecog_env/lib/python3.5/site-packages/sklearn/base.py:311: UserWarning: Trying to unpickle estimator RandomForestClassifier from version 0.18.1 when using version 0.19.1. This might lead to breaking code or invalid results. Use at your own risk.
+  UserWarning)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">ImportError</span>                               Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-5-1395c6bfc7ec&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-intense-fg ansi-bold">      1</span> <span class="ansi-red-fg"># load the classifier</span>
+<span class="ansi-green-fg">----&gt; 2</span><span class="ansi-red-fg"> </span>clf <span class="ansi-blue-fg">=</span> pg<span class="ansi-blue-fg">.</span>classifier<span class="ansi-blue-fg">.</span>load_classifier<span class="ansi-blue-fg">(</span>clf_filepath<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">~/git_repos/pyecog/pyecog/ndf/classifier.py</span> in <span class="ansi-cyan-fg">load_classifier</span><span class="ansi-blue-fg">(filepath)</span>
+<span class="ansi-green-intense-fg ansi-bold">    211</span> <span class="ansi-green-fg">def</span> load_classifier<span class="ansi-blue-fg">(</span>filepath<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    212</span>     f <span class="ansi-blue-fg">=</span> open<span class="ansi-blue-fg">(</span>filepath<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;rb&#39;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">--&gt; 213</span><span class="ansi-red-fg">     </span>clf <span class="ansi-blue-fg">=</span> pickle<span class="ansi-blue-fg">.</span>load<span class="ansi-blue-fg">(</span>f<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    214</span>     <span class="ansi-green-fg">return</span> clf
+<span class="ansi-green-intense-fg ansi-bold">    215</span>
+
+<span class="ansi-red-fg">ImportError</span>: No module named &#39;pandas.indexes&#39;
+</pre></div></div>
+</div>
+<div class="section" id="Use-classifier-to-predict-seizures">
+<h3>Use classifier to predict seizures<a class="headerlink" href="#Use-classifier-to-predict-seizures" title="Permalink to this headline">¶</a></h3>
+<p>We then pass the “predict_dir” method two arguments. The name of the
+predictions file we want to make, and the folder path that we want to
+classify. By default, after the classifier has detected 50 seizures, the
+predictions csv file will be saved, and you can load up the predictions
+in the gui.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">predictions_csv</span> <span class="o">=</span> <span class="s1">&#39;/media/jonathan/My Passport-ELE -EEG/2019/analysis pyecog/prediction from Tawfeeq Library/predictions_baselineconverted02.csv&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">clf</span><span class="o">.</span><span class="n">predict_directory</span><span class="p">(</span><span class="n">h5_folderpath</span><span class="p">,</span> <span class="n">output_csv_filename</span><span class="o">=</span><span class="n">predictions_csv</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-7-d531254a052b&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>clf<span class="ansi-blue-fg">.</span>predict_directory<span class="ansi-blue-fg">(</span>h5_folderpath<span class="ansi-blue-fg">,</span> output_csv_filename<span class="ansi-blue-fg">=</span>predictions_csv<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-red-fg">NameError</span>: name &#39;clf&#39; is not defined
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Analysis Notebook 1 Comparing predictions and annotations.html" class="btn btn-neutral float-right" title="Notebook Description" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Notebook 3 Training a classifier from a library.html" class="btn btn-neutral" title="Notebook 3 Training a classifier" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, J Cornford.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.0.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          
+          SphinxRtdTheme.Navigation.enableSticky();
+          
+      });
+  </script> 
+
+</body>
+</html>

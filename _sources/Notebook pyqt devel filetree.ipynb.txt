@@ -1,0 +1,441 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import sys\n",
+    "import os\n",
+    "\n",
+    "from PyQt5 import QtGui, QtCore, QtWidgets, uic"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "pyecog_path = '/home/jonathan/git_repos/pyecog' # replace this with the Pyecog-Master location\n",
+    "sys.path.append(pyecog_path)\n",
+    "import pyecog as pg\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "<generator object walk at 0x7f1f458a5db0>"
+      ]
+     },
+     "execution_count": 7,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "target_folder = '/media/jonathan/DATA/seizure_data/pyqt_test'\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 210,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "class DirectoryNode(Node):\n",
+    "    '''presume this should be always listening to a folder? (ideally)\n",
+    "\n",
+    "    # maybe mnake this a FOLDER node\n",
+    "    '''\n",
+    "    def __init__(self, name, parent=None):\n",
+    "        super(DirectoryNode, self).__init__(name,parent)\n",
+    "\n",
+    "        self.name = name\n",
+    "    \n",
+    "    def set_name(self, value):\n",
+    "        self.name = value\n",
+    "        #os.rename)\n",
+    "    def type_info(self):\n",
+    "        return 'DirectoryNode'\n",
+    "\n",
+    "class FileNode(Node):\n",
+    "    '''This might end up being powerful... like an actual proxy around a file ()but cant write?'''\n",
+    "    def __init__(self, name, parent=None):\n",
+    "        super(FileNode, self).__init__(name,parent)\n",
+    "        self.name = name\n",
+    "        #self.full_name = name\n",
+    "        # have to get fullname for chain of nodes?\n",
+    "        #self.fullname_have_to_grab_from_chaning\n",
+    "    def type_info(self):\n",
+    "        return self.name\n",
+    "\n",
+    "class Node:\n",
+    "    '''Represents item of data in tree model'''\n",
+    "    def __init__(self,name,parent=None):\n",
+    "        self.name = name\n",
+    "        self.parent = parent\n",
+    "        self.children = []\n",
+    "\n",
+    "        if parent is not None:\n",
+    "            parent.add_child(self)\n",
+    "\n",
+    "    #property decorator thing here?\n",
+    "    def set_name(self,value):\n",
+    "        self.name=value\n",
+    "\n",
+    "    def row(self):\n",
+    "        '''Returns index of this node in the parents children list\n",
+    "        Maybe change the method name?!\n",
+    "        '''\n",
+    "        if self.parent is not None:\n",
+    "            return self.parent.children.index(self)\n",
+    "\n",
+    "    def add_child(self, child):\n",
+    "        self.children.append(child)\n",
+    "\n",
+    "    def insert_child(self, position,child):\n",
+    "        if position <0 or position > len(self.children):\n",
+    "            return False\n",
+    "        self.children.insert(position,child)\n",
+    "        child.parent = self\n",
+    "        return True\n",
+    "\n",
+    "    def remove_child(self, position):\n",
+    "        if position <0 or position > len(self.children):\n",
+    "            return False\n",
+    "        child = self.children.pop(position)\n",
+    "        child.parent = None\n",
+    "        return True\n",
+    "\n",
+    "    def get_child(self, index):\n",
+    "        '''this might be pointless method'''\n",
+    "        return self.children[index]\n",
+    "\n",
+    "    def child_count(self):\n",
+    "        '''method might be pointless...?'''\n",
+    "        return len(self.children)\n",
+    "\n",
+    "    #def __repr__(self):\n",
+    "        return self.log()\n",
+    "\n",
+    "    def log(self, tab_level=-1):\n",
+    "        '''method used for printing children nodes to terminal, call on root'''\n",
+    "        output = \"\"\n",
+    "        tab_level+=1\n",
+    "        for i in range(tab_level):\n",
+    "            output +='\\t'\n",
+    "        output += self.name + '\\n'\n",
+    "        for child in self.children:\n",
+    "            output += child.log(tab_level)\n",
+    "        tab_level-=1\n",
+    "        return output\n",
+    "\n",
+    "    def type_info(self):\n",
+    "        return 'BASE_NODE'\n",
+    "\n",
+    "    def get_fullname(self):\n",
+    "        full_path = self.name\n",
+    "        node = self\n",
+    "        while True:\n",
+    "            if node.parent is None:\n",
+    "                break\n",
+    "            node = node.parent\n",
+    "            full_path = os.path.join(node.name, full_path)\n",
+    "\n",
+    "        print(full_path)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 211,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "root = DirectoryNode(target_folder)\n",
+    "name_to_node = {target_folder:root}\n",
+    "for directory, dirnames, filenames in os.walk(target_folder):\n",
+    "    node = name_to_node[directory]\n",
+    "    for sub_directory in dirnames:\n",
+    "        fullname = os.path.join(directory, sub_directory)\n",
+    "        child_node = DirectoryNode(sub_directory, parent=node) \n",
+    "        name_to_node[fullname] = child_node\n",
+    "        \n",
+    "    for filename in filenames:\n",
+    "        fullname = os.path.join(directory, filename)\n",
+    "        child_node = FileNode(filename, parent=node)\n",
+    "        name_to_node[fullname] = child_node \n",
+    "        \n",
+    "#print(root.log())"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 212,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'/media/jonathan/DATA/seizure_data/pyqt_test/test_h5'"
+      ]
+     },
+     "execution_count": 212,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "node.get_fullname()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 209,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "/media/jonathan/DATA/seizure_data/pyqt_test\n"
+     ]
+    }
+   ],
+   "source": [
+    "#node = self\n",
+    "full_path = node.name\n",
+    "while True:\n",
+    "    if node.parent is None:\n",
+    "        break\n",
+    "    node = node.parent\n",
+    "    full_path = os.path.join(node.name, full_path)\n",
+    "    \n",
+    "print(full_path)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 203,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "('test_h5', '/media/jonathan/DATA/seizure_data/pyqt_test')"
+      ]
+     },
+     "execution_count": 203,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "node.name, node.parent.name"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 204,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "test_h5 /media/jonathan/DATA/seizure_data/pyqt_test\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "'test_h5'"
+      ]
+     },
+     "execution_count": 204,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "node.get_fullname()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 126,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "/media/jonathan/DATA/seizure_data/pyqt_test/test_h5/\n"
+     ]
+    },
+    {
+     "ename": "RuntimeError",
+     "evalue": "No active exception to reraise",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mRuntimeError\u001b[0m                              Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-126-1828f856df75>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m()\u001b[0m\n\u001b[1;32m      4\u001b[0m     \u001b[0;32mif\u001b[0m \u001b[0mself\u001b[0m \u001b[0;32mis\u001b[0m \u001b[0;32mNone\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      5\u001b[0m         \u001b[0mprint\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mfullname\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 6\u001b[0;31m         \u001b[0;32mraise\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      7\u001b[0m     \u001b[0;32mif\u001b[0m \u001b[0mfullname\u001b[0m \u001b[0;32mis\u001b[0m \u001b[0;32mNone\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      8\u001b[0m         \u001b[0mfullname\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mname\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;31mRuntimeError\u001b[0m: No active exception to reraise"
+     ]
+    }
+   ],
+   "source": [
+    "fullname=''\n",
+    "self = node\n",
+    "for i in range(10):\n",
+    "    if self is None:\n",
+    "        print(fullname)\n",
+    "        raise\n",
+    "    if fullname is None:\n",
+    "        fullname = self.name\n",
+    "    else:\n",
+    "        fullname = os.path.join(self.name,fullname)\n",
+    "    self = self.parent"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 127,
+   "metadata": {
+    "scrolled": false
+   },
+   "outputs": [
+    {
+     "ename": "IndentationError",
+     "evalue": "unexpected indent (<ipython-input-127-10a304e58edc>, line 4)",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;36m  File \u001b[0;32m\"<ipython-input-127-10a304e58edc>\"\u001b[0;36m, line \u001b[0;32m4\u001b[0m\n\u001b[0;31m    if self.parent is None:\u001b[0m\n\u001b[0m    ^\u001b[0m\n\u001b[0;31mIndentationError\u001b[0m\u001b[0;31m:\u001b[0m unexpected indent\n"
+     ]
+    }
+   ],
+   "source": [
+    "node.parent.parent is None\n",
+    "\n",
+    "rint(self.parent)\n",
+    "        if self.parent is None:\n",
+    "            return fullname\n",
+    "        if fullname is None:\n",
+    "            fullname = self.name\n",
+    "        else:\n",
+    "            fullname = os.path.join(self.name,fullname)\n",
+    "        self.get_fullname(fullname)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 128,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "None\n"
+     ]
+    }
+   ],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 119,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Untitled Document 2\n",
+      "M1518781691_2018-02-16-11-48-11_tids_[88, 89, 90, 91, 92, 94, 104].h5\n",
+      "M1518716835_2018-02-15-17-47-15_tids_[88, 89, 90, 91, 92, 94, 104].h5\n",
+      "M1518731235_2018-02-15-21-47-15_tids_[88, 89, 90, 91, 92, 94, 104].h5\n",
+      "M1518756435_2018-02-16-04-47-15_tids_[88, 89, 90, 91, 92, 94, 104].h5\n",
+      "test_convert_h5\n",
+      "M1518788912_2018-02-16-13-48-32_tids_[].h5\n",
+      "M1518713235_2018-02-15-16-47-15_tids_[88, 89, 90, 91, 92, 94, 104].h5\n",
+      "M1518767235_2018-02-16-07-47-15_tids_[88, 89, 90, 91, 92, 94, 104].h5\n",
+      "M1518760035_2018-02-16-05-47-15_tids_[88, 89, 90, 91, 92, 94, 104].h5\n",
+      "M1518709635_2018-02-15-15-47-15_tids_[88, 89, 90, 91, 92, 94, 104].h5\n",
+      "test 2\n",
+      "M1518720435_2018-02-15-18-47-15_tids_[88, 89, 90, 91, 92, 94, 104].h5\n",
+      "M1518706020_2018-02-15-14-47-00_tids_[88, 89, 90, 91, 92, 94, 104].h5\n",
+      "test1\n",
+      "M1518774478_2018-02-16-09-47-58_tids_[88, 89, 90, 91, 92, 94, 104].h5\n",
+      "M1518724035_2018-02-15-19-47-15_tids_[88, 89, 90, 91, 92, 94, 104].h5\n",
+      "M1518770835_2018-02-16-08-47-15_tids_[88, 89, 90, 91, 92, 94, 104].h5\n",
+      "/media/jonathan/DATA/seizure_data/pyqt_test\n",
+      "M1518763635_2018-02-16-06-47-15_tids_[88, 89, 90, 91, 92, 94, 104].h5\n",
+      "Untitled Document\n",
+      "M1518752835_2018-02-16-03-47-15_tids_[88, 89, 90, 91, 92, 94, 104].h5\n",
+      "test_h5\n",
+      "M1518713235_2018-02-15-16-47-15_tids_[88, 89, 90, 91, 92, 94, 104].h5\n",
+      "test 34\n",
+      "Untitled Document\n",
+      "M1518738435_2018-02-15-23-47-15_tids_[88, 89, 90, 91, 92, 94, 104].h5\n",
+      "M1518742035_2018-02-16-00-47-15_tids_[88, 89, 90, 91, 92, 94, 104].h5\n",
+      "M1518706020_2018-02-15-14-47-00_tids_[88, 89, 90, 91, 92, 94, 104].h5\n",
+      "M1518716835_2018-02-15-17-47-15_tids_[88, 89, 90, 91, 92, 94, 104].h5\n",
+      "M1518749235_2018-02-16-02-47-15_tids_[88, 89, 90, 91, 92, 94, 104].h5\n",
+      "M1518709635_2018-02-15-15-47-15_tids_[88, 89, 90, 91, 92, 94, 104].h5\n",
+      "M1518716835_2018-02-15-17-47-15_tids_[88, 89, 90, 91, 92, 94, 104].h5\n",
+      "M1518785291_2018-02-16-12-48-11_tids_[88, 89, 90, 91, 92, 94].h5\n",
+      "test h5 2 256\n",
+      "M1518716835_2018-02-15-17-47-15_tids_[88, 89, 90, 91, 92, 94, 104].h5\n",
+      "M1518713235_2018-02-15-16-47-15_tids_[88, 89, 90, 91, 92, 94, 104].h5\n",
+      "M1518745635_2018-02-16-01-47-15_tids_[88, 89, 90, 91, 92, 94, 104].h5\n",
+      "M1518706020_2018-02-15-14-47-00_tids_[88, 89, 90, 91, 92, 94, 104].h5\n",
+      "M1518734835_2018-02-15-22-47-15_tids_[88, 89, 90, 91, 92, 94, 104].h5\n",
+      "M1518778091_2018-02-16-10-48-11_tids_[88, 89, 90, 91, 92, 94, 104].h5\n",
+      "M1518727635_2018-02-15-20-47-15_tids_[88, 89, 90, 91, 92, 94, 104].h5\n",
+      "M1518709635_2018-02-15-15-47-15_tids_[88, 89, 90, 91, 92, 94, 104].h5\n"
+     ]
+    }
+   ],
+   "source": [
+    "for key in name_to_node.keys():\n",
+    "    print(name_to_node[key].get)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.5.6"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}

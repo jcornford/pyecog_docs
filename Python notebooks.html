@@ -29,7 +29,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Notebook 1 Loading and converting Ndf files to h5 files" href="Notebook 1 Loading and converting Ndf files to h5 files.html" />
+    <link rel="next" title="Notebook 1 Loading and converting Ndf files to hdf5 files" href="Notebook 1 Loading and converting Ndf files to hdf5 files.html" />
     <link rel="prev" title="How to use the gui" href="How to use the GUI.html" /> 
 
   
@@ -88,17 +88,18 @@
 <li class="toctree-l1"><a class="reference internal" href="Installation.html">How to install Pyecog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="How to use the GUI.html">How to use the gui</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Pyecog as a python module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#jupyter-notebook-crash-course">Jupyter Notebook crash-course</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#loading-the-pyecog-module">Loading the pyecog module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#example-jupyter-notebooks-for-classification-workflow">Example Jupyter notebooks for classification workflow</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="Notebook 1 Loading and converting Ndf files to h5 files.html">Notebook 1 Loading and converting Ndf files to h5 files</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Notebook 2 Adding features to h5 files.html">Notebook 2 Adding features to h5 files</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Notebook 3 Making a library.html">Notebook 3 Making a library</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Notebook 4 Training a classifier on a library.html">Notebook 4 Training a classifier on a library</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Notebook 5 Applying classifier to h5 files.html">Notebook 5 Applying classifier to h5 files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Notebook 1 Loading and converting Ndf files to hdf5 files.html">Notebook 1 Loading and converting Ndf files to hdf5 files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Notebook 2 Making a library.html">Notebook 2 Making a library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Notebook 3 Training a classifier from a library.html">Notebook 3 Training a classifier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Notebook 4 Applying a classifier to a folder of h5 files.html">Notebook 4 Applying a classifier to a folder of h5 files</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#example-jupyter-notebooks-for-more-general-analysis">Example Jupyter notebooks for more general analysis</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="custom h5 analysis.html">Custom analysis of h5 files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Analysis Notebook 1 Comparing predictions and annotations.html">Notebook Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Analysis Notebook 2 Custom ndf and h5 analysis.html">Custom analysis of hdf5 files</a></li>
 </ul>
 </li>
 </ul>
@@ -193,6 +194,13 @@ everything in the GUI, it is a little clunky and any uncaught error will current
 <p>It is suggested to use jupyter notebooks for ndf to h5 file conversion, feature extraction and the training &amp; applying
 of classifiers. Furthermore, by interacting with the files through python directly you do not restrict your
 analysis to pre-coded routines.</p>
+<div class="section" id="jupyter-notebook-crash-course">
+<h2>Jupyter Notebook crash-course<a class="headerlink" href="#jupyter-notebook-crash-course" title="Permalink to this headline">¶</a></h2>
+<p>There are many tutorials on the web covering how to use and run jupyter notebooks. For example:
+<a class="reference external" href="https://realpython.com/jupyter-notebook-introduction/">https://realpython.com/jupyter-notebook-introduction/</a> . In short, a notebook contains cells that can be of different types - the primary two being Markdown and Code cell types. Code cells are run by pressing Shift+Enter.</p>
+<p>In order to download the notebooks linked below, click on “View page source” after selecting them. Then right click on the page and save the page as a plain text document. Make sure that the extension is “.ipyn” - you may need to delete “.txt” that browsers may automatically add.</p>
+<p>To run the notebooks, navigate to the directory in which you have just downloaded the notebook. Here activate your pyecog virtual environment as if you were about to run the GUI (“source activate pyecog_env” for mac/linux, or “activate pyecog_env” for windows) and then type and enter “jupyter notebook”. The notebooks should load in your default web browser.</p>
+</div>
 <div class="section" id="loading-the-pyecog-module">
 <h2>Loading the pyecog module<a class="headerlink" href="#loading-the-pyecog-module" title="Permalink to this headline">¶</a></h2>
 <p>The easiest place to place and run this notebook is from the pyecog directory downloaded from github, e.g. “pyecog-Development” as the pyecog module will be found in this folder. However, if you want to run the notebook from else where on your computer you first need to make sure that python can find the pyecog module using sys.path.append(). To do this modify and copy the following code into a cell and run it (shift+enter).</p>
@@ -210,11 +218,10 @@ analysis to pre-coded routines.</p>
 <h2>Example Jupyter notebooks for classification workflow<a class="headerlink" href="#example-jupyter-notebooks-for-classification-workflow" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="Notebook 1 Loading and converting Ndf files to h5 files.html">Notebook 1 Loading and converting Ndf files to h5 files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Notebook 2 Adding features to h5 files.html">Notebook 2 Adding features to h5 files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Notebook 3 Making a library.html">Notebook 3 Making a library</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Notebook 4 Training a classifier on a library.html">Notebook 4 Training a classifier on a library</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Notebook 5 Applying classifier to h5 files.html">Notebook 5 Applying classifier to h5 files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Notebook 1 Loading and converting Ndf files to hdf5 files.html">Notebook 1 Loading and converting Ndf files to hdf5 files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Notebook 2 Making a library.html">Notebook 2 Making a library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Notebook 3 Training a classifier from a library.html">Notebook 3 Training a classifier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Notebook 4 Applying a classifier to a folder of h5 files.html">Notebook 4 Applying a classifier to a folder of h5 files</a></li>
 </ul>
 </div>
 </div>
@@ -222,7 +229,8 @@ analysis to pre-coded routines.</p>
 <h2>Example Jupyter notebooks for more general analysis<a class="headerlink" href="#example-jupyter-notebooks-for-more-general-analysis" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="custom h5 analysis.html">Custom analysis of h5 files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Analysis Notebook 1 Comparing predictions and annotations.html">Notebook Description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Analysis Notebook 2 Custom ndf and h5 analysis.html">Custom analysis of hdf5 files</a></li>
 </ul>
 </div>
 </div>
@@ -236,7 +244,7 @@ analysis to pre-coded routines.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="Notebook 1 Loading and converting Ndf files to h5 files.html" class="btn btn-neutral float-right" title="Notebook 1 Loading and converting Ndf files to h5 files" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="Notebook 1 Loading and converting Ndf files to hdf5 files.html" class="btn btn-neutral float-right" title="Notebook 1 Loading and converting Ndf files to hdf5 files" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="How to use the GUI.html" class="btn btn-neutral" title="How to use the gui" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
