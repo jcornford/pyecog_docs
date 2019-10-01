@@ -37,6 +37,9 @@ extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.githubpages',
               'nbsphinx']
 
+# Here we allow errors in the jupyter files - so we can upload before a better system is in place!
+nbsphinx_allow_errors = True
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['ntemplates']
 
